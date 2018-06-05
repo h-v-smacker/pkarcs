@@ -342,3 +342,27 @@ pkarcs.register_node("default:pine_wood")
 pkarcs.register_node("default:acacia_wood")
 pkarcs.register_node("default:aspen_wood")
 
+-- mod-specific materials
+
+if minetest.get_modpath("ethereal") then
+	pkarcs.register_node("ethereal:banana_wood")
+	pkarcs.register_node("ethereal:birch_wood")
+	pkarcs.register_node("ethereal:frost_wood")
+	pkarcs.register_node("ethereal:palm_wood")
+	pkarcs.register_node("ethereal:willow_wood")
+	pkarcs.register_node("ethereal:yellow_wood")
+	pkarcs.register_node("ethereal:redwood_wood")
+	pkarcs.register_node("ethereal:bamboo_floor")
+end
+
+if minetest.get_modpath("bakedclay") then
+	
+	local clay = {"white", "grey", "black", "red", "yellow",
+	              "green", "cyan", "blue", "magenta", "orange", 
+	              "violet", "brown", "pink", "dark_grey", "dark_green"}
+
+	for _,c in ipairs(clay) do
+		pkarcs.register_node("bakedclay:" .. c)
+	end
+	
+end
