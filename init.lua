@@ -355,6 +355,17 @@ if minetest.get_modpath("ethereal") then
 	pkarcs.register_node("ethereal:bamboo_floor")
 end
 
+if minetest.get_modpath("moreblocks") then
+	pkarcs.register_node("moreblocks:cactus_brick")
+	pkarcs.register_node("moreblocks:grey_bricks")
+	pkarcs.register_node("moreblocks:coal_stone_bricks")
+	pkarcs.register_node("moreblocks:iron_stone_bricks")
+	pkarcs.register_node("moreblocks:stone_tile")
+	pkarcs.register_node("moreblocks:stone_tile")
+	pkarcs.register_node("moreblocks:split_stone_tile")
+	pkarcs.register_node("moreblocks:split_stone_tile_alt")
+end
+
 if minetest.get_modpath("bakedclay") then
 	
 	local clay = {"white", "grey", "black", "red", "yellow",
