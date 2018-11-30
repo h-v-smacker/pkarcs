@@ -299,8 +299,14 @@ function pkarcs.register_node(name)
 		node_def.tiles = table.copy(node_def.tile_images)
 		node_def.tile_images = nil
 	end
-
-	pkarcs.register_all(node_name, node_def.description, node_def.tiles, node_def.sound, node_def.groups, name)
+	
+	local groups = {}
+	for k,v in pairs(node_def.groups) do
+		groups[k] = v
+	end
+	groups.not_blocking_trains = 1
+	
+	pkarcs.register_all(node_name, node_def.description, node_def.tiles, node_def.sound, groups, name)
 end
 
 
@@ -360,7 +366,6 @@ if minetest.get_modpath("moreblocks") then
 	pkarcs.register_node("moreblocks:grey_bricks")
 	pkarcs.register_node("moreblocks:coal_stone_bricks")
 	pkarcs.register_node("moreblocks:iron_stone_bricks")
-	pkarcs.register_node("moreblocks:stone_tile")
 	pkarcs.register_node("moreblocks:stone_tile")
 	pkarcs.register_node("moreblocks:split_stone_tile")
 	pkarcs.register_node("moreblocks:split_stone_tile_alt")
