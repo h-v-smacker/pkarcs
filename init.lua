@@ -103,7 +103,7 @@ function pkarcs.register_all(nodename, desc, tile, sound, group, craftmaterial)
 			return minetest.item_place(itemstack, placer, pointed_thing, param2)
 		end,
 	})
-
+	
 	minetest.register_craft({
 		output = "pkarcs:"..nodename.."_arc".." 5",
 		recipe = {
@@ -113,6 +113,89 @@ function pkarcs.register_all(nodename, desc, tile, sound, group, craftmaterial)
 		}
 	})
 
+	--[[
+	minetest.register_node(":pkarcs:"..nodename.."_narrow_arc", {
+		description = desc.." Narrow Arc",
+		paramtype = "light",
+		paramtype2 = "facedir",
+		tiles = tile_collection,
+		drawtype = "nodebox",
+		node_box = {
+			type = "fixed",
+			fixed = {
+				{ nb(0),  nb(0),  nb(4),     nb(1),  nb(16), nb(12) },
+				{ nb(1),  nb(4),  nb(4),     nb(2),  nb(16), nb(12) },
+				{ nb(2),  nb(7),  nb(4),     nb(3),  nb(16), nb(12) },
+				{ nb(3),  nb(8),  nb(4),     nb(4),  nb(16), nb(12) },
+				{ nb(4),  nb(10), nb(4),     nb(5),  nb(16), nb(12) },
+				{ nb(5),  nb(11), nb(4),     nb(6),  nb(16), nb(12) },
+				{ nb(6),  nb(12), nb(4),     nb(8),  nb(16), nb(12) },
+				{ nb(8),  nb(13), nb(4),     nb(9),  nb(16), nb(12) },
+				{ nb(9),  nb(14), nb(4),     nb(12), nb(16), nb(12) },
+				{ nb(12), nb(15), nb(4),     nb(16), nb(16), nb(12) },
+			}
+		},
+		groups = group,
+		sounds = sound,
+
+		on_place = function(itemstack, placer, pointed_thing)
+			if pointed_thing.type ~= "node" then
+				return itemstack
+			end
+
+			local p1 = pointed_thing.under
+			local p0 = pointed_thing.above
+			local param2 = 0
+
+			local placer_pos = placer:getpos()
+			if placer_pos then
+				local dir = {
+					x = p1.x - placer_pos.x,
+					y = p1.y - placer_pos.y,
+					z = p1.z - placer_pos.z
+				}
+				param2 = minetest.dir_to_facedir(dir)
+			end
+
+			if p0.y-1 == p1.y then
+				param2 = param2 + 20
+				if param2 == 21 then
+					param2 = 23
+				elseif param2 == 23 then
+					param2 = 21
+				end
+			end
+
+			local NROT = 4 -- Number of possible "rotations" (4 Up down left right)
+			local rot = param2 % NROT
+			local wall = math.floor(param2/NROT)
+			if rot >=3 then
+				rot = 0
+			else 
+				rot = rot +1
+			end
+			param2 = wall*NROT+rot
+
+			return minetest.item_place(itemstack, placer, pointed_thing, param2)
+		end,
+	})
+	
+	minetest.register_craft({
+		output = "pkarcs:"..nodename.."_narrow_arc".." 2",
+		recipe = {
+			{"pkarcs:"..nodename.."_arc"},
+		}
+	})
+	
+	minetest.register_craft({
+		output = "pkarcs:"..nodename.."_arc",
+		recipe = {
+			{"pkarcs:"..nodename.."_narrow_arc", "pkarcs:"..nodename.."_narrow_arc"},
+		}
+	})
+	
+	]]
+	   
 	minetest.register_node(":pkarcs:"..nodename.."_outer_arc", {
 		description = desc.." Outer Arc",
 		paramtype = "light",
@@ -359,6 +442,11 @@ if minetest.get_modpath("ethereal") then
 	pkarcs.register_node("ethereal:yellow_wood")
 	pkarcs.register_node("ethereal:redwood_wood")
 	pkarcs.register_node("ethereal:bamboo_floor")
+
+	if ethereal.mod and ethereal.mod == "undo" then
+		pkarcs.register_node("ethereal:olive_wood")
+	end
+
 end
 
 if minetest.get_modpath("moreblocks") then
@@ -366,6 +454,8 @@ if minetest.get_modpath("moreblocks") then
 	pkarcs.register_node("moreblocks:grey_bricks")
 	pkarcs.register_node("moreblocks:coal_stone_bricks")
 	pkarcs.register_node("moreblocks:iron_stone_bricks")
+	pkarcs.register_node("moreblocks:coal_stone")
+	pkarcs.register_node("moreblocks:iron_stone")
 	pkarcs.register_node("moreblocks:stone_tile")
 	pkarcs.register_node("moreblocks:split_stone_tile")
 	pkarcs.register_node("moreblocks:split_stone_tile_alt")
